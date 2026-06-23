@@ -1,0 +1,17 @@
+{
+  "name": "AI Cyber Security Tools",
+  "short_name": "CyberScan",
+  "description": "Cek link, email & password aman atau penipu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00ff88",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%230a0a0f' width='512' height='512'/><path fill='%2300ff88' d='M256 32L48 96v128c0 141 80 274 208 352 128-78 208-211 208-352V96L256 32z'/><path fill='%230a0a0f' d='M256 160l-80 40v60c0 44 36 80 80 80s80-36 80-80v-60l-80-40z'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
