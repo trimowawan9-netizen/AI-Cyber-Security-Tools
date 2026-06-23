@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Cyber Security Tools PRO</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#0a0f1f;
+    color:white;
+}
+
+header{
+    background:linear-gradient(135deg,#00c6ff,#0072ff);
+    padding:20px;
+    text-align:center;
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+
+header h1{
+    font-size:2rem;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:30px auto;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#131c35;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 0 15px rgba(0,255,255,.1);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+.card h3{
+    margin-bottom:10px;
+    color:#00d4ff;
+}
+
+textarea,input{
+    width:100%;
+    background:#0e1529;
+    color:white;
+    border:1px solid #00d4ff;
+    border-radius:10px;
+    padding:10px;
+    resize:none;
+    margin-bottom:8px;
+}
+
+textarea{height:120px;}
+
+button{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00d4ff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00aaff;
+}
+
+.result{
+    margin-top:15px;
+    background:#0e1529;
+    padding:10px;
+    border-radius:10px;
+    min-height:80px;
+    border:2px solid transparent;
+}
+
+.bahaya{border-color:red !important}
+.aman{border-color:#00ff88 !important}
+.strength-bar{height:8px;background:#333;border-radius:5px;margin:10px 0}
+#strength-fill{height:100%;width:0%;border-radius:5px;transition:0.3s}
+
+footer{
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+    color:#aaa;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🛡 AI Cyber Security Tools PRO</h1>
+    <p>Smart Security Monitoring & Threat Detection</p>
+</header>
+
+<div class="container">
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>🔍 Link Phishing Checker</h3>
+            <input type="text" id="threatInput" placeholder="Paste link WA/Email di sini...">
+            <button onclick="analyzeThreat()">Analyze Link</button>
+            <div class="result" id="threatResult">Hasil cek muncul di sini</div>
+        </div>
+
+        <div class="card">
+            <h3>🔐 Password Strength</h3>
+            <input type="password" id="vulnInput" placeholder="Ketik password buat dites..." oninput="scanVulnerability()">
+            <div class="strength-bar"><div id="strength-fill"></div></div>
+            <div class="result" id="vulnResult">Ketik untuk cek kekuatan</div>
+            <button onclick="generatePassword()">Generate Password Kuat</button>
+        </div>
+
+        <div class="card">
+            <h3>📧 Email Scam Detector</h3>
+            <textarea id="malwareInput" placeholder="Paste isi email 'Menang Hadiah' di sini..."></textarea>
+            <button onclick="detectMalware()">Check Email</button>
+            <div class="result" id="malwareResult">Hasil scan muncul di sini</div>
+        </div>
+
+        <div class="card">
+            <h3>🚨 Mode Darurat</h3>
+            <a href="https://myaccount.google.com/security" target="_blank"><button>BUKA KEAMANAN GOOGLE</button></a>
+            <button onclick="copyPesan()">Copy Pesan WA Peringatan</button>
+            <div class="result" id="reportResult">Tombol darurat kalo akun kebobol</div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    AI Cyber Security Dashboard © 2026 | Data ga dikirim ke server
+</footer>
+
+<script>
+
+function analyzeThreat(){
+    let link = document.getElementById("threatInput").value.toLowerCase();
+    let hasil = document.getElementById("threatResult");
+
+    if(link === ""){
+        alert("Masukkan link dulu bro");
+        return;
+    }
+
+    if(link.includes('tinyurl')||link.includes('bit.ly')||link.includes('free')||link.includes('hadiah')||link.includes('claim')||link.includes('login')||link.includes('verifikasi')){
+        hasil.innerHTML = `<b>⚠️ BAHAYA!</b><br>Link mencurigakan! Ciri: URL pendek, kata "free/hadiah", minta login. JANGAN DIKLIK!`;
+        hasil.className = 'result bahaya';
+    } else {
+        hasil.innerHTML = `<b>✅ AMAN</b><br>Link keliatannya normal. Tapi tetep hati-hati ya, jangan masukin password sembarangan.`;
+        hasil.className = 'result aman';
+    }
+}
+
+function scanVulnerability(){
+    let pass = document.getElementById("vulnInput").value;
+    let strength = 0;
+    let fill = document.getElementById('strength-fill');
+    let hasil = document.getElementById("vulnResult");
+    
+    if(pass.length > 8) strength++;
+    if(pass.match(/[A-Z]/)) strength++;
+    if(pass.match(/[0-9]/)) strength++;
+    if(pass.match(/[^A-Za-z0-9]/)) strength++;
+    
+    if(strength <= 1){
+        fill.style.width='25%';fill.style.background='red';
+        hasil.innerHTML='<b>Lemah</b> - Gampang dibobol hacker :(';
+        hasil.className = 'result bahaya';
+    }
+    else if(strength == 2){
+        fill.style.width='50%';fill.style.background='orange';
+        hasil.innerHTML='<b>Sedang</b> - Lumayan, tapi bisa lebih kuat';
+        hasil.className = 'result';
+    }
+    else if(strength == 3){
+        fill.style.width='75%';fill.style.background='yellow';
+        hasil.innerHTML='<b>Kuat</b> - Aman dari brute force';
+        hasil.className = 'result aman';
+    }
+    else {
+        fill.style.width='100%';fill.style.background='lime';
+        hasil.innerHTML='<b>Sangat Kuat</b> - Hacker nangis :)';
+        hasil.className = 'result aman';
+    }
+}
+
+function generatePassword(){
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let pass = '';
+    for(let i=0;i<14;i++) pass += chars[Math.floor(Math.random()*chars.length)];
+    document.getElementById("vulnInput").value = pass;
+    scanVulnerability();
+}
+
+function detectMalware(){
+    let isi = document.getElementById("malwareInput").value.toLowerCase();
+    let hasil = document.getElementById("malwareResult");
+    
+    if(isi === ""){
+        alert("Paste isi email dulu");
+        return;
+    }
+
+    if(isi.includes('menang')||isi.includes('hadiah')||isi.includes('verifikasi sekarang')||isi.includes('24 jam')||isi.includes('akun diblokir')||isi.includes('klik link')){
+        hasil.innerHTML = `<b>🚨 SCAM!</b><br>Email palsu! Cirinya: Janji hadiah, buru-buru klik, minta data. HAPUS EMAILNYA!`;
+        hasil.className = 'result bahaya';
+    } else {
+        hasil.innerHTML = `<b>✅ NORMAL</b><br>Email keliatannya aman. Cek pengirimnya @gmail.com asli apa @gmail-support.xyz palsu.`;
+        hasil.className = 'result aman';
+    }
+}
+
+function copyPesan(){
+    let pesan = "Hati-hati! Akun Google saya ada percobaan login mencurigakan. Jangan klik link dari saya dulu ya.";
+    navigator.clipboard.writeText(pesan);
+    document.getElementById("reportResult").innerHTML = "✅ Pesan peringatan disalin! Tinggal paste ke WA";
+    document.getElementById("reportResult").className = 'result aman';
+}
+
+</script>
+
+</body>
+</html>
