@@ -1,0 +1,69 @@
+const phishingDB = ["bit.ly","tinyurl","gratis","hadiah","klaim","verifikasi","akun terkunci","update data","nomor rekening","otp","password"];
+const scamDB = ["selamat anda menang","transfer biaya admin","kirim ktp","pajak","undian","uang kaget","batas waktu"];
+
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+function cekLink(){
+  let input = document.getElementById("inputLink").value.toLowerCase();
+  let bahaya = phishingDB.filter(k=>input.includes(k));
+  let skor = bahaya.length>0 ? 30 : 90;
+  updateSkor(skor);
+  let html = bahaya.length>0 
+    ? `<div class="hasil-box bahaya">⚠️ BAHAYA: Terdeteksi kata "${bahaya.join(', ')}". Potensi Phishing!</div>`
+    : `<div class="hasil-box aman">✅ AMAN: Link terlihat bersih dari kata kunci phishing umum</div>`;
+  document.getElementById("hasilLink").innerHTML = html;
+}
+
+function cekPass(){
+  let pass = document.getElementById("inputPass").value;
+  let skor = 0;
+  if(pass.length>=8) skor+=30;
+  if(/[A-Z]/.test(pass)) skor+=20;
+  if(/[0-9]/.test(pass)) skor+=20;
+  if(/[^A-Za-z0-9]/.test(pass)) skor+=30;
+  updateSkor(skor);
+  let status = skor<50 ? "bahaya" : skor<80 ? "waspada" : "aman";
+  let text = skor<50 ? "LEMAH - Gampang dibobol" : skor<80 ? "SEDANG - Lumayan" : "KUAT - Mantap";
+  document.getElementById("hasilPass").innerHTML = `<div class="hasil-box ${status}">Skor ${skor}/100 - ${text}</div>`;
+}
+
+function cekEmail(){
+  let input = document.getElementById("inputEmail").value.toLowerCase();
+  let bahaya = scamDB.filter(k=>input.includes(k));
+  let skor = bahaya.length>0 ? 20 : 95;
+  updateSkor(skor);
+  let html = bahaya.length>0 
+    ? `<div class="hasil-box bahaya">🚨 SCAM TERDETEKSI: Ada kata "${bahaya.join(', ')}". JANGAN transfer!</div>`
+    : `<div class="hasil-box aman">✅ BERSIH: Tidak ada pola scam umum</div>`;
+  document.getElementById("hasilEmail").innerHTML = html;
+}
+
+function updateSkor(s){
+  document.getElementById("skor").innerText = s;
+  let status = s<50 ? "🔴 BAHAYA" : s<80 ? "🟡 WASPADA" : "🟢 AMAN";
+  document.getElementById("statusSkor").innerText = status;
+}
+
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  let doc = new jsPDF();
+  let client = document.getElementById("namaClient").value || "Client";
+  let auditor = document.getElementById("namaAuditor").value || "Auditor";
+  let skor = document.getElementById("skor").innerText;
+  let status = document.getElementById("statusSkor").innerText;
+  
+  doc.setFontSize(18);
+  doc.text("LAPORAN AUDIT KEAMANAN", 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Website: ${client}`, 20, 35);
+  doc.text(`Auditor: ${auditor}`, 20, 45);
+  doc.text(`Tanggal: ${new Date().toLocaleDateString('id-ID')}`, 20, 55);
+  doc.text(`Skor Keamanan: ${skor}/100`, 20, 70);
+  doc.text(`Status: ${status}`, 20, 80);
+  doc.text("Catatan: Ini scan awal. Untuk audit mendalam disarankan ahli.", 20, 100);
+  
+  doc.save(`Laporan-Audit-${client}.pdf`);
+}
