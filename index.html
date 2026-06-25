@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>CyberSec AI Lab PRO MAX - Audit Keamanan</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>🛡️ CyberSec AI Lab PRO MAX</h1>
+  <p class="sub">Alat Audit Keamanan Website Siap Kerja</p>
+
+  <div class="audit-box">
+    <input type="text" id="namaClient" placeholder="Nama Website Client: tokobapak.com">
+    <input type="text" id="namaAuditor" placeholder="Nama Auditor: Bang An9">
+  </div>
+
+  <div class="tabs">
+    <button onclick="showTab('link')">🔗 Cek Link Phishing</button>
+    <button onclick="showTab('pass')">🔑 Cek Password</button>
+    <button onclick="showTab('email')">📧 Cek Email Scam</button>
+  </div>
+
+  <div id="link" class="tab-content">
+    <textarea id="inputLink" placeholder="Tempel link mencurigakan di sini..."></textarea>
+    <button onclick="cekLink()">Scan Link</button>
+    <div id="hasilLink"></div>
+  </div>
+
+  <div id="pass" class="tab-content" style="display:none">
+    <input type="text" id="inputPass" placeholder="Ketik password untuk dites...">
+    <button onclick="cekPass()">Cek Kekuatan</button>
+    <div id="hasilPass"></div>
+  </div>
+
+  <div id="email" class="tab-content" style="display:none">
+    <textarea id="inputEmail" placeholder="Paste isi email/SMS mencurigakan..."></textarea>
+    <button onclick="cekEmail()">Scan Email</button>
+    <div id="hasilEmail"></div>
+  </div>
+
+  <div id="skorBox">
+    <h2>Skor Keamanan: <span id="skor">0</span>/100</h2>
+    <div id="statusSkor">Belum di-scan</div>
+  </div>
+
+  <button class="btn-pdf" onclick="downloadPDF()">📄 Download Laporan PDF</button>
+  <p class="footer">Disclaimer: Tools edukasi. Untuk audit mendalam hubungi ahli cybersecurity</p>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
